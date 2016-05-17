@@ -59,6 +59,6 @@ public class Main {
 		UC.addBooking(1,3,"MF",dated4,datee4,3);
 		UC.saveDB();
 
-		System.out.println("Test");
+		System.out.println("Test 2");
 	}
 }
