@@ -3,11 +3,6 @@
  *******************************************************************************/
 package timeTableModel;
 
-import java.util.HashSet;
-// Start of user code (user defined imports)
-
-// End of user code
-
 /**
  * Description of Room.
  * 
@@ -17,25 +12,18 @@ public class Room {
 	/**
 	 * Description of the property id.
 	 */
-	private HashSet<Integer> id = new HashSet<Integer>();
+	private int id = -1;
 
 	/**
 	 * Description of the property studentsNumber.
 	 */
-	private HashSet<Integer> studentsNumber = new HashSet<Integer>();
+	private int studentsNumber = -1;
 
-	// Start of user code (user defined attributes for Room)
-
-	// End of user code
-
-	// Start of user code (user defined methods for Room)
-
-	// End of user code
 	/**
 	 * Returns id.
 	 * @return id 
 	 */
-	public HashSet<Integer> getId() {
+	public int getId() {
 		return this.id;
 	}
 
@@ -43,8 +31,13 @@ public class Room {
 	 * Returns studentsNumber.
 	 * @return studentsNumber 
 	 */
-	public HashSet<Integer> getStudentsNumber() {
+	public int getStudentsNumber() {
 		return this.studentsNumber;
 	}
+
+    public Room(int roomId, int studentsNumber) {
+        this.id = roomId;
+        this.studentsNumber = studentsNumber;
+    }
 
 }

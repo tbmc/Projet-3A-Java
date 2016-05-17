@@ -5,9 +5,6 @@ package timeTableModel;
 
 import java.util.Date;
 import java.util.HashSet;
-// Start of user code (user defined imports)
-
-// End of user code
 
 /**
  * Description of TimeTable.
@@ -18,16 +15,12 @@ public class TimeTable {
 	/**
 	 * Description of the property id.
 	 */
-	public HashSet<Integer> id = new HashSet<Integer>();
+	public int id = -1;
 
 	/**
 	 * Description of the property bookings.
 	 */
 	public Booking bookings = null;
-
-	// Start of user code (user defined attributes for TimeTable)
-
-	// End of user code
 
 	/**
 	 * Description of the method addBooking.
@@ -39,10 +32,8 @@ public class TimeTable {
 	 * @return 
 	 */
 	public Boolean addBooking(Integer bookingId, String loginUser, Date dateBegin, Date dateEnd, Integer roomId) {
-		// Start of user code for method addBooking
 		Boolean addBooking = Boolean.FALSE;
 		return addBooking;
-		// End of user code
 	}
 
 	/**
@@ -51,20 +42,15 @@ public class TimeTable {
 	 * @return 
 	 */
 	public Boolean removeBooking(Integer bookId) {
-		// Start of user code for method removeBooking
 		Boolean removeBooking = Boolean.FALSE;
 		return removeBooking;
-		// End of user code
 	}
 
-	// Start of user code (user defined methods for TimeTable)
-
-	// End of user code
 	/**
 	 * Returns id.
 	 * @return id 
 	 */
-	public HashSet<Integer> getId() {
+	public int getId() {
 		return this.id;
 	}
 

@@ -5,9 +5,6 @@ package timeTableModel;
 
 import java.util.Date;
 import java.util.HashSet;
-// Start of user code (user defined imports)
-
-// End of user code
 
 /**
  * Description of Booking.
@@ -18,40 +15,33 @@ public class Booking {
 	/**
 	 * Description of the property id.
 	 */
-	private HashSet<Integer> id = new HashSet<Integer>();
+	private int id = -1;
 
 	/**
 	 * Description of the property roomId.
 	 */
-	private HashSet<Integer> roomId = new HashSet<Integer>();
+	private int roomId = -1;
 
 	/**
 	 * Description of the property userLogin.
 	 */
-	private HashSet<String> userLogin = new HashSet<String>();
+	private String userLogin = null;
 
 	/**
 	 * Description of the property dateBegin.
 	 */
-	private HashSet<Date> dateBegin = new HashSet<Date>();
+	private Date dateBegin = null;
 
 	/**
 	 * Description of the property dateEnd.
 	 */
-	private HashSet<Date> dateEnd = new HashSet<Date>();
+	private Date dateEnd = null;
 
-	// Start of user code (user defined attributes for Booking)
-
-	// End of user code
-
-	// Start of user code (user defined methods for Booking)
-
-	// End of user code
 	/**
 	 * Returns id.
 	 * @return id 
 	 */
-	public HashSet<Integer> getId() {
+	public int getId() {
 		return this.id;
 	}
 
@@ -59,7 +49,7 @@ public class Booking {
 	 * Returns roomId.
 	 * @return roomId 
 	 */
-	public HashSet<Integer> getRoomId() {
+	public int getRoomId() {
 		return this.roomId;
 	}
 
@@ -67,7 +57,7 @@ public class Booking {
 	 * Returns userLogin.
 	 * @return userLogin 
 	 */
-	public HashSet<String> getUserLogin() {
+	public String getUserLogin() {
 		return this.userLogin;
 	}
 
@@ -75,7 +65,7 @@ public class Booking {
 	 * Returns dateBegin.
 	 * @return dateBegin 
 	 */
-	public HashSet<Date> getDateBegin() {
+	public Date getDateBegin() {
 		return this.dateBegin;
 	}
 
@@ -83,7 +73,7 @@ public class Booking {
 	 * Returns dateEnd.
 	 * @return dateEnd 
 	 */
-	public HashSet<Date> getDateEnd() {
+	public Date getDateEnd() {
 		return this.dateEnd;
 	}
 
