@@ -1,73 +1,65 @@
-/*******************************************************************************
- * 2016, All rights reserved.
- *******************************************************************************/
 package timeTableModel;
 
 import java.util.Date;
-import java.util.HashSet;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
-/**
- * Description of TimeTable.
- * 
- * @author tbmc
- */
 public class TimeTable {
-	/**
-	 * Description of the property id.
-	 */
-	public int id = -1;
 
-	/**
-	 * Description of the property bookings.
-	 */
-	public Booking bookings = null;
+    private int id;
+    private Hashtable<Integer, Booking> bookings = new Hashtable<>();
 
-	/**
-	 * Description of the method addBooking.
-	 * @param bookingId 
-	 * @param loginUser 
-	 * @param dateBegin 
-	 * @param dateEnd 
-	 * @param roomId 
-	 * @return 
-	 */
-	public Boolean addBooking(Integer bookingId, String loginUser, Date dateBegin, Date dateEnd, Integer roomId) {
-		Boolean addBooking = Boolean.FALSE;
-		return addBooking;
-	}
+    public TimeTable(int bookingId) {
+        this.id = bookingId;
+    }
 
-	/**
-	 * Description of the method removeBooking.
-	 * @param bookId 
-	 * @return 
-	 */
-	public Boolean removeBooking(Integer bookId) {
-		Boolean removeBooking = Boolean.FALSE;
-		return removeBooking;
-	}
+    public boolean addBooking(int bookingId, String userLogin, Date dateBegin, Date dateEnd, Room room) {
+        if(bookings.containsKey(bookingId))
+            return false;
+        bookings.put(bookingId, new Booking(bookingId, room, userLogin, dateBegin, dateEnd));
+        return true;
+    }
 
-	/**
-	 * Returns id.
-	 * @return id 
-	 */
-	public int getId() {
-		return this.id;
-	}
+    public boolean removeBooking(int bookingId) {
+        return bookings.remove(bookingId) != null;
+    }
 
-	/**
-	 * Returns bookings.
-	 * @return bookings 
-	 */
-	public Booking getBookings() {
-		return this.bookings;
-	}
+    public int getRoom(int bookId) {
+        return bookings.get(bookId).getRoom().getId();
+    }
 
-	/**
-	 * Sets a value to attribute bookings. 
-	 * @param newBookings 
-	 */
-	public void setBookings(Booking newBookings) {
-		this.bookings = newBookings;
-	}
+    public void getBookingsDate(Hashtable<Integer, Date> dateBegin, Hashtable<Integer, Date> dateEnd) {
+        Enumeration<Integer> keys = bookings.keys();
+        int v;
+        Booking b;
+        while(keys.hasMoreElements()) {
+            v = keys.nextElement();
+            b = bookings.get(v);
+            dateBegin.put(v, b.getDateBegin());
+            dateEnd.put(v, b.getDateEnd());
+        }
+    }
+
+    public int getBookinsMaxId() {
+        Enumeration<Integer> keys = bookings.keys();
+        int max = 0, v;
+        while(keys.hasMoreElements()) {
+            v = keys.nextElement();
+            if(v > max)
+                max = v;
+        }
+        return max;
+    }
+
+    public String getUserLogin(int bookId) {
+        Booking book = bookings.get(bookId);
+        if(book == null)
+            return null;
+        return book.getUserLogin();
+    }
+
+    public String[] idToString() {
+        return TimeTableDB.idKeysToStringArray(bookings);
+    }
 
 }

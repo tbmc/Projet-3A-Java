@@ -1,80 +1,41 @@
-/*******************************************************************************
- * 2016, All rights reserved.
- *******************************************************************************/
 package timeTableModel;
 
 import java.util.Date;
-import java.util.HashSet;
 
-/**
- * Description of Booking.
- * 
- * @author tbmc
- */
 public class Booking {
-	/**
-	 * Description of the property id.
-	 */
-	private int id = -1;
 
-	/**
-	 * Description of the property roomId.
-	 */
-	private int roomId = -1;
+    private int id;
+    private Room room;
+    private String userLogin;
+    private Date dateBegin, dateEnd;
 
-	/**
-	 * Description of the property userLogin.
-	 */
-	private String userLogin = null;
+    public Booking(int bookingId, Room room, String userLogin,
+                   Date dateBegin, Date dateEnd) {
+        this.id = bookingId;
+        this.room = room;
+        this.userLogin = userLogin;
+        this.dateBegin = dateBegin;
+        this.dateEnd = dateEnd;
+    }
 
-	/**
-	 * Description of the property dateBegin.
-	 */
-	private Date dateBegin = null;
+    public int getId() {
+        return id;
+    }
 
-	/**
-	 * Description of the property dateEnd.
-	 */
-	private Date dateEnd = null;
+    public Room getRoom() {
+        return room;
+    }
 
-	/**
-	 * Returns id.
-	 * @return id 
-	 */
-	public int getId() {
-		return this.id;
-	}
+    public String getUserLogin() {
+        return userLogin;
+    }
 
-	/**
-	 * Returns roomId.
-	 * @return roomId 
-	 */
-	public int getRoomId() {
-		return this.roomId;
-	}
+    public Date getDateBegin() {
+        return dateBegin;
+    }
 
-	/**
-	 * Returns userLogin.
-	 * @return userLogin 
-	 */
-	public String getUserLogin() {
-		return this.userLogin;
-	}
-
-	/**
-	 * Returns dateBegin.
-	 * @return dateBegin 
-	 */
-	public Date getDateBegin() {
-		return this.dateBegin;
-	}
-
-	/**
-	 * Returns dateEnd.
-	 * @return dateEnd 
-	 */
-	public Date getDateEnd() {
-		return this.dateEnd;
-	}
+    public Date getDateEnd() {
+        return dateEnd;
+    }
 
 }
