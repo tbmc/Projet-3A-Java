@@ -25,8 +25,8 @@ public class Main {
 	 * 
 	 */
 	public static void main(String[] args) {
-		
-		final String file="timeTableDB.xml";
+
+		final String file="timeTableDB_test.xml";
 		TimeTableController UC=new TimeTableController(file);
 		UC.addRoom(1,50);
 		UC.addRoom(2,100);
@@ -59,6 +59,10 @@ public class Main {
 		UC.addBooking(1,3,"MF",dated4,datee4,3);
 		UC.saveDB();
 
-		System.out.println("Test 2");
+        TimeTableController u = new TimeTableController(file);
+        boolean a = u.loadDB();
+        boolean b = u.saveDB("test2.xml");
+        System.out.println(a);
+        System.out.println(b);
 	}
 }

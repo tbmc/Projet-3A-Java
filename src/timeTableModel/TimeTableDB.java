@@ -1,6 +1,5 @@
 package timeTableModel;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -61,14 +60,18 @@ public class TimeTableDB {
 		this.file = file;
 	}
 
+    public boolean saveDB(String file) {
+        TimeTableSaver tts = new TimeTableSaver(file);
+        return tts.save(rooms, timeTables);
+    }
+
     public boolean saveDB() {
-        // TODO Implémenter ça
-        return false;
+        return saveDB(file);
     }
 
     public boolean loadDB() {
-        // TODO Implémenter ça
-        return false;
+        TimeTableSaver tts = new TimeTableSaver(file);
+        return tts.load(rooms, timeTables);
     }
 
 
@@ -94,6 +97,15 @@ public class TimeTableDB {
 
     public String[] roomsIdToString() {
         return TimeTableDB.idKeysToStringArray(rooms);
+    }
+
+    public String[] roomsToString() {
+        Enumeration<Integer> keys = rooms.keys();
+        String[] out = new String[rooms.size()];
+        for(Integer i = 0, k = 0; keys.hasMoreElements(); i++, k = keys.nextElement()) {
+            out[i] = rooms.get(k).getInfo();
+        }
+        return out;
     }
 
 
@@ -141,7 +153,7 @@ public class TimeTableDB {
         TimeTable tt = timeTables.get(timeTableId);
         if(tt == null)
             return 0; // On ne retourne pas vraiment une erreur, renvoyer 0 permet d'ajouter directement à cet index
-        return tt.getBookinsMaxId();
+        return tt.getBookingsMaxId();
     }
 
     public String getUserLogin(int timeTableId, int bookId) {

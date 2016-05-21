@@ -45,8 +45,7 @@ public class TimeTableController implements ITimeTableController{
 
 	@Override
 	public String[] roomsToString() {
-		// TODO Auto-generated method stub
-		return null;
+		return tTDB.roomsToString();
 	}
 
 	@Override
@@ -108,6 +107,10 @@ public class TimeTableController implements ITimeTableController{
 	public boolean saveDB() {
 		return tTDB.saveDB();
 	}
+
+	public boolean saveDB(String file) {
+        return tTDB.saveDB(file);
+    }
 
 	@Override
 	public boolean loadDB() {
