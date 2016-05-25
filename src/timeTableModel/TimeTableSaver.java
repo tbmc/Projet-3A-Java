@@ -13,12 +13,13 @@ public class TimeTableSaver {
     public final String
             ROOMS_NAME           = "Rooms",
             TIMETABLES_NAME      = "TimesTables"
-    ;
+                    ;
 
     public TimeTableSaver(String file) {
         this.file = file;
     }
 
+    REFAIRE CA AVEC SAVEDSTATE
     public boolean load(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables) {
         XMLToFileSaver in = new XMLToFileSaver(file);
         return decodeElements(in.loadFromFile(), rooms, timeTables);
@@ -32,7 +33,7 @@ public class TimeTableSaver {
     private Element domBuild(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables) {
         Element root = new Element("TimeTableDB");
         root.addContent(XMLUtils.getXMLFromHashTable(ROOMS_NAME, rooms))
-            .addContent(XMLUtils.getXMLFromHashTable(TIMETABLES_NAME, timeTables));
+                .addContent(XMLUtils.getXMLFromHashTable(TIMETABLES_NAME, timeTables));
         return root;
     }
 
@@ -49,5 +50,25 @@ public class TimeTableSaver {
         return b;
     }
 
+    public class SavedState {
+        private String filePath, hash;
+        public SavedState(String filePath, String hash) {
+            this.filePath = filePath;
+            this.hash = hash;
+        }
+        @Override
+        public boolean equals(Object o) {
+            if(!(o instanceof SavedState))
+                return false;
+            return filePath.equals(((SavedState) o).filePath) &&
+                    hash.equals(((SavedState) o).hash);
+        }
+        public String getFilePath() {
+            return filePath;
+        }
+        public String getHash() {
+            return hash;
+        }
+    }
 
 }

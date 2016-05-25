@@ -58,6 +58,7 @@ public class Room implements XMLUtils.XMLSerializable {
 
     @Override
     public String getXML_NAME() { return "Room"; }
+
     @Override
     public String getXML_INNER_ID() { return "RoomId"; }
 

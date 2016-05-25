@@ -23,11 +23,14 @@ public class TimeTableDB {
 	 * Le fichier contenant la base de données.
 	 * 
 	 */
-	private String file;
+	private String file = null;
 
     private Hashtable<Integer, Room> rooms = new Hashtable<>();
     private Hashtable<Integer, TimeTable> timeTables = new Hashtable<>();
 
+
+    private TimeTableSaver timeTableSaver = new TimeTableSaver(file);
+    private TimeTableSaver.SaveState hashLastCommit = null;
 
 	/**
 	 * 
@@ -61,8 +64,8 @@ public class TimeTableDB {
 	}
 
     public boolean saveDB(String file) {
-        TimeTableSaver tts = new TimeTableSaver(file);
-        return tts.save(rooms, timeTables);
+        timeTableSaver.setFile(file);
+        return timeTableSaver.save(rooms, timeTables, hashLastCommit);
     }
 
     public boolean saveDB() {
@@ -70,8 +73,9 @@ public class TimeTableDB {
     }
 
     public boolean loadDB() {
-        TimeTableSaver tts = new TimeTableSaver(file);
-        return tts.load(rooms, timeTables);
+        TimeTableSaver.SaveState ss = timeTableSaver.load(rooms, timeTables);
+        this.hashLastCommit = ss;
+        return ss != null;
     }
 
 
