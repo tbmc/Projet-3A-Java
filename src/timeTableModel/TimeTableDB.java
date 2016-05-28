@@ -30,7 +30,7 @@ public class TimeTableDB {
 
 
     private TimeTableSaver timeTableSaver = new TimeTableSaver(file);
-    private TimeTableSaver.SaveState hashLastCommit = null;
+    private TimeTableSaver.SavedState hashLastCommit = null;
 
 	/**
 	 * 
@@ -61,6 +61,7 @@ public class TimeTableDB {
 	 */
 	public void setFile(String file) {
 		this.file = file;
+        timeTableSaver.setFile(file);
 	}
 
     public boolean saveDB(String file) {
@@ -73,7 +74,7 @@ public class TimeTableDB {
     }
 
     public boolean loadDB() {
-        TimeTableSaver.SaveState ss = timeTableSaver.load(rooms, timeTables);
+        TimeTableSaver.SavedState ss = timeTableSaver.load(rooms, timeTables);
         this.hashLastCommit = ss;
         return ss != null;
     }

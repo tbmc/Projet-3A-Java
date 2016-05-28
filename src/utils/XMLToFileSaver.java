@@ -47,6 +47,7 @@ public class XMLToFileSaver {
             dom = sxb.build(new File(file));
         } catch(Exception e) {
             e.printStackTrace();
+            return null;
         }
         if(dom == null)
             return null;
