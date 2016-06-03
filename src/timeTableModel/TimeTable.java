@@ -32,9 +32,19 @@ public class TimeTable implements XMLUtils.XMLSerializable {
     }
 
     public boolean addBooking(int bookingId, String userLogin, Date dateBegin, Date dateEnd, Room room) {
-        if(bookings.containsKey(bookingId))
+        if(bookings.containsKey(bookingId) || !isRoomFree(room.getId(), dateBegin, dateEnd))
             return false;
         bookings.put(bookingId, new Booking(bookingId, room, userLogin, dateBegin, dateEnd));
+        return true;
+    }
+
+    public boolean isRoomFree(int roomId, Date begin, Date end) {
+        Enumeration<Integer> keys = bookings.keys();
+        while(keys.hasMoreElements()) {
+            Booking b = bookings.get(keys.nextElement());
+            if(b.isBooked(begin, end))
+                return false;
+        }
         return true;
     }
 
