@@ -1,9 +1,11 @@
 package utils;
 
 import org.jdom2.Element;
-import timeTableModel.Room;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -51,6 +53,18 @@ public class XMLUtils {
         }
         return true;
 
+    }
+
+    public static String md5(String in) {
+        String out = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(in.getBytes());
+            out = new BigInteger(1, md.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return out;
     }
 
 }
