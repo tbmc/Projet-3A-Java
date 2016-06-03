@@ -28,6 +28,7 @@ public class Booking implements XMLUtils.XMLSerializable {
     private String userLogin;
     private Date dateBegin, dateEnd;
 
+
     public Booking(int bookingId, Room room, String userLogin,
                    Date dateBegin, Date dateEnd) {
         this.id = bookingId;
@@ -61,6 +62,9 @@ public class Booking implements XMLUtils.XMLSerializable {
         return dateEnd;
     }
 
+    public boolean isBooked(Date begin, Date end) {
+        return dateBegin.before(end) && dateEnd.after(end);
+    }
 
     @Override
     public Element getXMLElement() {
