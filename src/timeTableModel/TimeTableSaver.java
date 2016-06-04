@@ -26,6 +26,12 @@ public class TimeTableSaver {
         this.file = file;
     }
 
+    /**
+     *
+     * @param rooms
+     * @param timeTables
+     * @return
+     */
     public SavedState load(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables) {
         System.out.println(file);
         XMLToFileSaver in = new XMLToFileSaver(file);
@@ -36,6 +42,13 @@ public class TimeTableSaver {
         return b ? ss : null;
     }
 
+    /**
+     *
+     * @param rooms
+     * @param timeTables
+     * @param ssOld
+     * @return
+     */
     public boolean save(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables, SavedState ssOld) {
         DateFormat df = new SimpleDateFormat(DATE_FORMAT);
         String date = df.format(new Date());
@@ -83,19 +96,6 @@ public class TimeTableSaver {
         }
     }
 
-    /*
-    protected LinkedList<String> getDiff(Element old, Element newE) {
-        LinkedList<String> ll = new LinkedList<>();
-
-        List<Element> l = newE.getChildren();
-        for(Element e : l) {
-            String name = e.getName();
-
-        }
-        return ll;
-    }
-    */
-
     protected SavedState getLastCommit() {
         return getLastCommit(null);
     }
@@ -117,10 +117,21 @@ public class TimeTableSaver {
         return root;
     }
 
+    /**
+     * Modifie le chemin du fichier
+     * @param file Chemin du fichier
+     */
     public void setFile(String file) {
         this.file = file;
     }
 
+    /**
+     * Rempli les hashtables de Room et TimeTable à partir d'un élément XML
+     * @param e Elément XML, racine du document
+     * @param rooms Hashtable de sortie contenant les Room
+     * @param timeTables Hashtable de sortie contenant les TimeTable
+     * @return un boolean qui est vrai si le décodage a réussi et faux sinon
+     */
     private boolean decodeElements(Element e, Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables) {
         if(e == null)
             return false;

@@ -10,19 +10,53 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+/**
+ * Classe pour gérer le XML
+ */
 public class XMLUtils {
 
+    /**
+     * Interface pour gérer l'enregistrement des éléments XML à partir des données de la classe
+     * et inversement
+     */
     public interface XMLSerializable extends Serializable {
-
-        Element getXMLElement();
-
+        /**
+         * Récupère le nom de l'élément XML contenant les données
+         * @return Le nom du tag XML
+         */
         String getXML_NAME();
+
+        /**
+         * Récupère le nom du tag XML contenant l'ID dans l'élément
+         * @return tag XML
+         */
         String getXML_INNER_ID();
 
+        /**
+         * Crée l'élément XML contenant toutes les informations de la classe
+         * @return Elément XML contenant toutes les informations de la classe
+         */
+        Element getXMLElement();
+
+        /**
+         * Crée un élément de la classe T (la classe implémentant l'interface) et le rempli avec les
+         * données contenu dans le XML
+         * @param e Elément XML à partir du quel on récupère les informations
+         * @param params Paramètre optionnel permettant de passer des informations supplémentaires
+         *               par exemple pour la classe booking qui nécessite d'avoir la hastable des Room
+         * @param <T> Type définissant une classe implémentant l'interface XMLSerializable
+         * @return La classe instanciée contenant toutes les informations du XML la concernant
+         */
         <T extends XMLSerializable> T createFromXMLElement(Element e, Object params);
 
     }
 
+    /**
+     * Génère un élément XML à partir des données contenu dans une hashtable
+     * @param xmlName nom du tag XML
+     * @param in Hashtable ayant pour clé un Integer et en valeur, une classe implémentant XMLSerializable
+     * @return L'élément XML
+     */
     public static Element getXMLFromHashTable(String xmlName, Hashtable<Integer, ? extends XMLSerializable> in) {
         Element e = new Element(xmlName);
         Enumeration<Integer> keys = in.keys();
@@ -32,10 +66,30 @@ public class XMLUtils {
         return e;
     }
 
+    /**
+     * Même fonction que {@link #getFromElement(Element, Hashtable, XMLSerializable, Object)}
+     * mais le paramètre params est mis à null
+     * @param e
+     * @param out
+     * @param s
+     * @param <T>
+     * @return
+     */
     public static <T extends XMLSerializable> boolean getFromElement(Element e, Hashtable<Integer, T> out, XMLSerializable s) {
         return getFromElement(e, out, s, null);
     }
 
+    /**
+     * Rempli une hashtable à partir des données dans un XML
+     * @param e Element XML contenant les données
+     * @param out Hashtable de sortie contenant les données, la clé doit être un Integer et la valeur doit être un T
+     * @param s Instance de la classe en valeur de la hashtable, cela permet d'accéder aux fonctions non statiques
+     *          Ce parmètre est rendu obligatoire car on ne peut pas forcer les classes à implémenter des fonctions statiques
+     *          à l'aide d'une interface
+     * @param params Paramètre obtionnel permettant de passer des données supplémentaires
+     * @param <T> Classe implémentant l'interface XMLSerializable
+     * @return vrai en cas de succès et faux en cas d'échec
+     */
     public static <T extends XMLSerializable> boolean getFromElement(Element e, Hashtable<Integer, T> out, XMLSerializable s,  Object params) {
 
         if(s.getXML_NAME() == null || s.getXML_INNER_ID() == null)
@@ -55,6 +109,11 @@ public class XMLUtils {
 
     }
 
+    /**
+     * Génère le hash MD5 d'une chaine de caractère
+     * @param in Chaine à hasher
+     * @return Hash de la chaine en entré
+     */
     public static String md5(String in) {
         String out = null;
         try {

@@ -140,7 +140,19 @@ public class TimeTableDB {
         TimeTable tt = timeTables.get(timeTableId);
         if(tt == null || room == null)
             return false;
+        if(!isRoomFree(roomId, dateBegin, dateEnd))
+            return false;
         return tt.addBooking(bookingId, login, dateBegin, dateEnd, room);
+    }
+
+    public boolean isRoomFree(int roomId, Date begin, Date end) {
+        Enumeration<Integer> keys = timeTables.keys();
+        while(keys.hasMoreElements()) {
+            TimeTable tt = timeTables.get(keys.nextElement());
+            if(!tt.isRoomFree(roomId, begin, end))
+                return false;
+        }
+        return true;
     }
 
     public boolean removeBook(int timeTableId, int bookId) {
