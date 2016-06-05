@@ -34,7 +34,7 @@ public class Booking implements XMLUtils.XMLSerializable {
     /**
      * Crée une nouvelle instance de Réservation
      * @param bookingId Identifiant de la réservation
-     * @param room Instance de la classe Room correspondant à la salle réservée
+     * @param room Instance de la classe {@link Room} correspondant à la salle réservée
      * @param userLogin Identifiant de l'utilisateur réservant la salle
      * @param dateBegin Date de début de la réservation
      * @param dateEnd Date de fin de la réservation
@@ -67,7 +67,7 @@ public class Booking implements XMLUtils.XMLSerializable {
 
     /**
      * Récupère l'objet Room correspondant à la salle réservée
-     * @return Objet correspondant à la salle réservée
+     * @return {@link Room} correspondant à la salle réservée
      */
     public Room getRoom() {
         return room;

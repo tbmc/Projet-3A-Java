@@ -46,7 +46,7 @@ public class XMLToFileSaver {
 
     /**
      * Enregistre l'élément XML dans le fichier
-     * @param root Elément XML à enregistrer dans le fichier
+     * @param root {@link Element} XML à enregistrer dans le fichier
      * @return vrai en cas de succès ou faux sinon
      */
     public boolean saveToFile(Element root) {
@@ -63,8 +63,8 @@ public class XMLToFileSaver {
     }
 
     /**
-     * Charge un élément XML à partir du fichier
-     * @return Elément XML contenant les données du fichier
+     * Charge un {@link Element} XML à partir du fichier
+     * @return {@link Element} XML contenant les données du fichier
      */
     public Element loadFromFile() {
         Document dom = null;

@@ -28,7 +28,7 @@ public class Main {
 
 		final String file = "timeTableDB_test.xml";
 		TimeTableController UC = new TimeTableController(file);
-		UC.addRoom(1,50);
+		/*UC.addRoom(1,50);
 		UC.addRoom(2,100);
 		UC.addRoom(3,150);
 
@@ -59,12 +59,18 @@ public class Main {
 		UC.addBooking(1,3,"MF",dated4,datee4,3);
 		boolean aa = UC.saveDB();
         System.out.println(aa);
+		*/
 
         System.out.println(file);
         TimeTableController u = new TimeTableController(file);
         boolean a = u.loadDB();
         System.out.println(a);
-        boolean b = u.saveDB("test2.xml");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        boolean b = u.saveDB();
         System.out.println(b);
 	}
 }

@@ -29,6 +29,7 @@ public class TimeTableController implements ITimeTableController{
 	public TimeTableController(String tTfile) {
 		this.tTDB = new TimeTableDB(tTfile);
 	}
+
 	/**
 	 * Fonction permettant de récupérer le login du professeur qui a réalisé la réservation dont l'identifiant est bookId dans l'emploi du temps dont l'identifiant est timeTableId.
 	 * @param timeTableId
@@ -42,6 +43,7 @@ public class TimeTableController implements ITimeTableController{
 	public String getTeacherLogin(int timeTableId, int bookId) {
 		return tTDB.getUserLogin(timeTableId, bookId);
 	}
+
 	/**
 	 * Fonction permettant de récupérer tous les identifiants des salles sous la forme d'un
 	 * tableau de chaînes de caractères où chaque ligne contient l'identifiant d'une salle.
@@ -53,6 +55,7 @@ public class TimeTableController implements ITimeTableController{
 	public String[] roomsIdToString() {
 		return tTDB.roomsIdToString();
 	}
+
 	/**
 	 * Fonction permettant de récupérer toutes les informations des salles sous la forme d'un
 	 * tableau de chaînes de caractères où chaque ligne contient les informations d'une salle.
@@ -64,6 +67,7 @@ public class TimeTableController implements ITimeTableController{
 	public String[] roomsToString() {
 		return tTDB.roomsToString();
 	}
+
 	/**
 	 * Fonction permettant de récupérer tous les identifiants des emplois du temps sous la forme d'un
 	 * tableau de chaînes de caractères où chaque ligne contient l'identifiant d'un emploi du temps.
@@ -75,6 +79,7 @@ public class TimeTableController implements ITimeTableController{
 	public String[] timeTablesIDToString() {
 		return tTDB.timeTablesIDToString();
 	}
+
 	/**
 	 * Fonction permettant de récupérer tous les identifiants des réservations de l'emploi du temps timeTableId sous la forme d'un
 	 * tableau de chaînes de caractères où chaque ligne contient l'identifiant d'une réservation.
@@ -88,6 +93,7 @@ public class TimeTableController implements ITimeTableController{
 	public String[] booksIdToString(int timeTableId) {
 		return tTDB.booksIdToString(timeTableId);
 	}
+
 	/**
 	 * Fonction qui crée une salle et qui la sauvegarde dans la base de données.
 	 * @param roomId
@@ -101,6 +107,7 @@ public class TimeTableController implements ITimeTableController{
 	public boolean addRoom(int roomId, int capacity) {
 		return tTDB.addRoom(roomId, capacity);
 	}
+
 	/**
 	 * Fonction qui supprime une salle et qui sauvegarde la base de données.
 	 * @param roomId
@@ -112,6 +119,7 @@ public class TimeTableController implements ITimeTableController{
 	public boolean removeRoom(int roomId) {
 		return tTDB.removeRoom(roomId);
 	}
+
 	/**
 	 * Fonction qui récupère l'identifiant de la salle réservée dans l'emploi du temps dont l'identifiant est timeTableId et dont l'identifiant de réservation est bookId
 	 * @param timeTableId
@@ -125,6 +133,7 @@ public class TimeTableController implements ITimeTableController{
 	public int getRoom(int timeTableId, int bookId) {
 		return tTDB.getRoomId(timeTableId, bookId);
 	}
+
 	/**
 	 * Fonction qui crée un emploi du temps et qui le sauvegarde dans la base de données
 	 * @param timeTableId
@@ -136,6 +145,7 @@ public class TimeTableController implements ITimeTableController{
 	public boolean addTimeTable(int timeTableId) {
 		return tTDB.addTimeTable(timeTableId);
 	}
+
 	/**
 	 * Fonction qui supprime un emploi du temps et qui sauvegarde la base de données
 	 * @param timeTableId
@@ -147,6 +157,7 @@ public class TimeTableController implements ITimeTableController{
 	public boolean removeTimeTable(int timeTableId) {
 		return tTDB.removeTimeTable(timeTableId);
 	}
+
 	/**
 	 * Fonction qui ajoute une réservation dans l'emploi du temps TimeTableId et qui la sauvegarde dans la base de données
 	 *
@@ -169,6 +180,7 @@ public class TimeTableController implements ITimeTableController{
 	public boolean addBooking(int timeTableId, int bookingId, String login, Date dateBegin, Date dateEnd, int roomId) {
 		return tTDB.addBooking(timeTableId, bookingId, login, dateBegin, dateEnd, roomId);
 	}
+
 	/**
 	 * Fonction qui retourne les dates de début et de fin des réservations de l'emploi du temps dont l'identifiant est timeTableId.
 	 *
@@ -183,6 +195,7 @@ public class TimeTableController implements ITimeTableController{
 	public void getBookingsDate(int timeTableId, Hashtable<Integer, Date> dateBegin, Hashtable<Integer, Date> dateEnd) {
 		tTDB.getBookingsDate(timeTableId, dateBegin, dateEnd);
 	}
+
 	/**
 	 * Fonction qui supprime la réservation dont l'identifiant est bookId dans l'emploi du temps timeTableId.
 	 *
@@ -197,6 +210,7 @@ public class TimeTableController implements ITimeTableController{
 	public boolean removeBook(int timeTableId, int bookId) {
 		return tTDB.removeBook(timeTableId, bookId);
 	}
+
 	/**
 	 * Fonction qui récupère le plus grand identifiant de réservation dans l'emploi du temps timeTableId.
 	 *
@@ -209,6 +223,7 @@ public class TimeTableController implements ITimeTableController{
 	public int getBookingsMaxId(int timeTableId) {
 		return tTDB.getBookingsMaxId(timeTableId);
 	}
+
 	/**
 	 * Fonction sauvegardant la base de donnée dans un fichier XML.
 	 * @return
@@ -218,16 +233,17 @@ public class TimeTableController implements ITimeTableController{
 	public boolean saveDB() {
 		return tTDB.saveDB();
 	}
+
 	/**
 	 * Fonction qui vérifie si le fichier a bien été sauvegardé dans la base de données
 	 *
-	 * @param file
-	 * @return
-	 * vrai si le fichier est enregistré et faux sinon.
+	 * @param file Chemin du fichier dans lequel enregistrer la base de données
+	 * @return vrai si le fichier est enregistré et faux sinon.
 	 */
 	public boolean saveDB(String file) {
 		return tTDB.saveDB(file);
 	}
+
 	/**
 	 * Fonction chargeant la base de donnée contenue dans un fichier XML.
 	 * @return

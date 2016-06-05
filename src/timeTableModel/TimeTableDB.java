@@ -40,6 +40,7 @@ public class TimeTableDB {
         super();
         this.setFile(file);
     }
+
     /**
      * Getter de file
      *
@@ -49,6 +50,7 @@ public class TimeTableDB {
     public String getFile() {
         return file;
     }
+
     /**
      * Setter de file
      *
@@ -59,18 +61,18 @@ public class TimeTableDB {
         this.file = file;
         timeTableSaver.setFile(file);
     }
+
     /**
      * Fonction qui vérifie si le fichier a bien été sauvegardé dans la base de données
      *
-     * @param file
-     * @return
-     * vrai si le fichier est enregistré et faux sinon.
+     * @param file Chemin du fichier dans lequel lire et enregistrer la base de données
+     * @return vrai si le fichier est enregistré et faux sinon.
      */
-
     public boolean saveDB(String file) {
         timeTableSaver.setFile(file);
         return timeTableSaver.save(rooms, timeTables, hashLastCommit);
     }
+
     /**
      * Fonction sauvegardant la base de donnée dans un fichier XML.
      * @return
@@ -79,6 +81,7 @@ public class TimeTableDB {
     public boolean saveDB() {
         return saveDB(file);
     }
+
     /**
      * Fonction chargeant la base de donnée contenue dans un fichier XML.
      * @return
@@ -100,13 +103,13 @@ public class TimeTableDB {
      * 		boolean faux si la salle existe déjà
      * 				vrai si elle n'existe pas et crée une nouvelle salle
      */
-
     public boolean addRoom(int roomId, int maxStudentsNumber) {
         if(rooms.containsKey(roomId))
             return false;
         rooms.put(roomId, new Room(roomId, maxStudentsNumber));
         return true;
     }
+
     /**
      * Fonction qui supprime une salle et qui sauvegarde la base de données.
      * @param roomId
@@ -117,6 +120,7 @@ public class TimeTableDB {
     public boolean removeRoom(int roomId) {
         return rooms.remove(roomId) != null;
     }
+
     /**
      * Fonction qui récupère l'identifiant de la salle réservée dans l'emploi du temps dont l'identifiant est timeTableId et dont l'identifiant de réservation est bookId
      * @param timeTableId
@@ -126,10 +130,10 @@ public class TimeTableDB {
      * @return
      * 		L'identifiant de la salle réservée
      */
-
     public int getRoomId(int timeTableId, int bookId) {
         return timeTables.get(timeTableId).getRoom(bookId);
     }
+
     /**
      * Fonction permettant de récupérer tous les identifiants des salles sous la forme d'un
      * tableau de chaînes de caractères où chaque ligne contient l'identifiant d'une salle.
@@ -140,6 +144,7 @@ public class TimeTableDB {
     public String[] roomsIdToString() {
         return TimeTableDB.idKeysToStringArray(rooms);
     }
+
     /**
      * Fonction permettant de récupérer toutes les informations des salles sous la forme d'un
      * tableau de chaînes de caractères où chaque ligne contient les informations d'une salle.
@@ -169,6 +174,7 @@ public class TimeTableDB {
         timeTables.put(timeTableId, new TimeTable(timeTableId));
         return true;
     }
+
     /**
      * Fonction qui supprime un emploi du temps et qui sauvegarde la base de données
      * @param timeTableId
@@ -179,6 +185,7 @@ public class TimeTableDB {
     public boolean removeTimeTable(int timeTableId) {
         return timeTables.remove(timeTableId) != null;
     }
+
     /**
      * Fonction permettant de récupérer tous les identifiants des emplois du temps sous la forme d'un
      * tableau de chaînes de caractères où chaque ligne contient l'identifiant d'un emploi du temps.
@@ -208,7 +215,6 @@ public class TimeTableDB {
      * @return
      * 		Un boolean indiquant si la réservation a bien été faite
      */
-
     public boolean addBooking(int timeTableId, int bookingId, String login, Date dateBegin, Date dateEnd, int roomId) {
         Room room = rooms.get(roomId);
         TimeTable tt = timeTables.get(timeTableId);
@@ -218,6 +224,7 @@ public class TimeTableDB {
             return false;
         return tt.addBooking(bookingId, login, dateBegin, dateEnd, room);
     }
+
     /**
      * Fonction qui vérifie si la salle est libre ou réservée
      *
@@ -239,6 +246,7 @@ public class TimeTableDB {
         }
         return true;
     }
+
     /**
      * Fonction qui supprime la réservation dont l'identifiant est bookId dans l'emploi du temps timeTableId.
      *
@@ -252,6 +260,7 @@ public class TimeTableDB {
     public boolean removeBook(int timeTableId, int bookId) {
         return timeTables.remove(timeTableId) != null;
     }
+
     /**
      * Fonction qui retourne les dates de début et de fin des réservations de l'emploi du temps dont l'identifiant est timeTableId.
      *
@@ -268,6 +277,7 @@ public class TimeTableDB {
             return;
         tt.getBookingsDate(dateBegin, dateEnd);
     }
+
     /**
      * Fonction qui récupère le plus grand identifiant de réservation dans l'emploi du temps timeTableId.
      *
@@ -282,6 +292,7 @@ public class TimeTableDB {
             return 0; // On ne retourne pas vraiment une erreur, renvoyer 0 permet d'ajouter directement à cet index
         return tt.getBookingsMaxId();
     }
+
     /**
      * Fonction permettant de récupérer le login du professeur qui a réalisé la réservation dont l'identifiant est bookId dans l'emploi du temps dont l'identifiant est timeTableId.
      * @param timeTableId
@@ -297,6 +308,7 @@ public class TimeTableDB {
             return null;
         return tt.getUserLogin(bookId);
     }
+
     /**
      * Fonction permettant de récupérer tous les identifiants des réservations de l'emploi du temps timeTableId sous la forme d'un
      * tableau de chaînes de caractères où chaque ligne contient l'identifiant d'une réservation.

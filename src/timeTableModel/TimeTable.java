@@ -53,7 +53,7 @@ public class TimeTable implements XMLUtils.XMLSerializable {
      * @param userLogin Identifiant de l'utilisateur faisant la réservation
      * @param dateBegin Date de début de la réservation
      * @param dateEnd Date de fin de la réservation
-     * @param room Salle à réserver lors de la réservation
+     * @param room Instance de {@link Room} correspondant à la salle à réserver
      * @return vrai en cas de succès, faux sinon
      */
     public boolean addBooking(int bookingId, String userLogin, Date dateBegin, Date dateEnd, Room room) {

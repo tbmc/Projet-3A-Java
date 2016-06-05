@@ -22,15 +22,19 @@ public class TimeTableSaver {
             DATE_FORMAT          = "dd/MM/yyyy HH:mm:ss"
     ;
 
+    /**
+     * Crée une nouvelle instance de la classe tout en définissant le chemin du fichier
+     * @param file Chemin du fichier dans lequel lire et enregistrer la base de données
+     */
     public TimeTableSaver(String file) {
         this.file = file;
     }
 
     /**
-     *
-     * @param rooms
-     * @param timeTables
-     * @return
+     * Charge la base de données
+     * @param rooms Hashtable de sortie dans laquelle les {@link Room} seront ajoutées
+     * @param timeTables Hastable de sortie dans laquelle les {@link TimeTable} seront ajoutées
+     * @return Une classe permettant de représenter le dernier commit du fichier
      */
     public SavedState load(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables) {
         System.out.println(file);
@@ -43,13 +47,16 @@ public class TimeTableSaver {
     }
 
     /**
-     *
-     * @param rooms
-     * @param timeTables
-     * @param ssOld
-     * @return
+     * Sauvegarde la base de données dans le fichier
+     * @param rooms Hashtable contenant les {@link Room} à sauvegarder
+     * @param timeTables Hashtable contenant les {@link TimeTable} à sauvegarder
+     * @param ssOld Instance de {@link SavedState} correspondant au commit lu dans le fichier
+     *              et permettant de savoir si le fichier a été modifié depuis la dernière fois où il
+     *              a été lu
+     * @return Vrai si la sauvegarde a réussi ou faux sinon
      */
     public boolean save(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables, SavedState ssOld) {
+        // Ajout du commit dans le fichier XML
         DateFormat df = new SimpleDateFormat(DATE_FORMAT);
         String date = df.format(new Date());
         String hash = XMLUtils.md5(System.currentTimeMillis() + date);
@@ -61,12 +68,16 @@ public class TimeTableSaver {
         e.addContent(ch);
         e.addContent(cd);
 
-        XMLToFileSaver out = new XMLToFileSaver(file);
-        Element old = out.loadFromFile();
         Element dom = domBuild(rooms, timeTables);
         dom.addContent(e);
 
+        // Lecture du commit du fichier
+        XMLToFileSaver out = new XMLToFileSaver(file);
+        Element old = out.loadFromFile();
+
         boolean b = false;
+        // Vérification du dernier commit du fichier pour savoir si c'est le même
+        // que celui que l'on a récupéré lors de la lecture du fichier
         if(file != null && ssOld != null && file.equals(ssOld.getFilePath())) {
             SavedState ss = getLastCommit(old);
             if(!ss.getHash().equals(ssOld.getHash())) {
@@ -76,29 +87,35 @@ public class TimeTableSaver {
 
         if(b) {
             // Ici, il y a un conflit
+            // On demande donc à l'utilisateur si il veut écraser le fichier ou non.
             System.out.println("Ecraser le fichier précédent.");
             System.out.println("Oui (O) ou Non (N) ?");
             Scanner scan = new Scanner(System.in);
             String inStr = scan.nextLine();
             Character c = Character.toUpperCase(inStr.charAt(0));
-            if(c == '0') {
-                System.out.println("Le fichier va être écrasé.");
+            if(c == 'O') {
+                // L'utilisateur veut écraser le fichier
+                System.out.println("Le fichier a été écrasé.");
                 return out.saveToFile(dom);
             }
             else {
+                // L'utilisateur ne veut pas écraser le fichier
                 System.out.println("Le fichier n'a pas été enregistré.");
                 return false;
             }
         }
         else {
             // Ici il n'y a pas de conflit
+            // Et donc on peut directement écrire dans le fichier
             return out.saveToFile(dom);
         }
     }
 
-    protected SavedState getLastCommit() {
-        return getLastCommit(null);
-    }
+    /**
+     * Récupère le dernier commit d'un fichier
+     * @param e Element XML à partir duquel récupérer le commit
+     * @return Instance de la classe {@link SavedState} représentant le dernier commit du fichier
+     */
     protected SavedState getLastCommit(Element e) {
         if(e == null) {
             XMLToFileSaver in = new XMLToFileSaver(file);
@@ -110,6 +127,12 @@ public class TimeTableSaver {
         return ss;
     }
 
+    /**
+     * Crée un {@link Element} XML à partir des Rooms et des TimeTable
+     * @param rooms Hashtable contenant les Rooms à ajouter dans le XML
+     * @param timeTables Hashtable contenant les TimeTables à ajouter dans le XML
+     * @return {@link Element} créé contenant toutes les données
+     */
     private Element domBuild(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables) {
         Element root = new Element("TimeTableDB");
         root.addContent(XMLUtils.getXMLFromHashTable(ROOMS_NAME, rooms))
@@ -139,20 +162,38 @@ public class TimeTableSaver {
         Room r = new Room();
         rooms.clear();
         timeTables.clear();
+        // Reconstruction des Room
         b = XMLUtils.getFromElement(e.getChild(ROOMS_NAME), rooms, new Room());
         if(!b) return false;
+        // Reconstruction des Emplois du temps
         b = XMLUtils.getFromElement(e.getChild(TIMETABLES_NAME), timeTables, new TimeTable(), rooms);
         if(!b) return false;
 
         return b;
     }
 
+    /**
+     * Classe représentant les données d'un commit
+     */
     public class SavedState {
         private String filePath, hash;
+
+        /**
+         * Crée une nouvelle instance de la classe
+         * @param filePath Chemin du fichier dans lequel le commit a été fait
+         * @param hash MD5 du commit
+         */
         public SavedState(String filePath, String hash) {
             this.filePath = filePath;
             this.hash = hash;
         }
+
+        /**
+         * Permet de comparer un commit avec un autre
+         * @param o Object avec lequel comparer le commit, si l'objet n'est pas du type SavedState, cette fonction
+         *          renverra toujours faux.
+         * @return Vrai si l'objet en paramètre correspond au même commit que l'instance de la classe, faux sinon.
+         */
         @Override
         public boolean equals(Object o) {
             if(!(o instanceof SavedState))
@@ -160,9 +201,19 @@ public class TimeTableSaver {
             return filePath.equals(((SavedState) o).filePath) &&
                     hash.equals(((SavedState) o).hash);
         }
+
+        /**
+         * Récupère le chemin du fichier du commit
+         * @return Chemin du fichier du dernier commit
+         */
         public String getFilePath() {
             return filePath;
         }
+
+        /**
+         * Retourne la MD5 du commit
+         * @return MD5 du commit
+         */
         public String getHash() {
             return hash;
         }

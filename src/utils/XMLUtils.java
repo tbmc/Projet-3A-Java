@@ -41,7 +41,7 @@ public class XMLUtils {
         /**
          * Crée un élément de la classe T (la classe implémentant l'interface) et le rempli avec les
          * données contenu dans le XML
-         * @param e Elément XML à partir du quel on récupère les informations
+         * @param e {@link Element} XML à partir du quel on récupère les informations
          * @param params Paramètre optionnel permettant de passer des informations supplémentaires
          *               par exemple pour la classe booking qui nécessite d'avoir la hastable des Room
          * @param <T> Type définissant une classe implémentant l'interface XMLSerializable
@@ -52,10 +52,10 @@ public class XMLUtils {
     }
 
     /**
-     * Génère un élément XML à partir des données contenu dans une hashtable
+     * Génère un {@link Element} XML à partir des données contenu dans une hashtable
      * @param xmlName nom du tag XML
-     * @param in Hashtable ayant pour clé un Integer et en valeur, une classe implémentant XMLSerializable
-     * @return L'élément XML
+     * @param in Hashtable ayant pour clé un {@link Integer} et en valeur, une classe implémentant {@link XMLSerializable}
+     * @return L'{@link Element} XML
      */
     public static Element getXMLFromHashTable(String xmlName, Hashtable<Integer, ? extends XMLSerializable> in) {
         Element e = new Element(xmlName);
@@ -81,13 +81,13 @@ public class XMLUtils {
 
     /**
      * Rempli une hashtable à partir des données dans un XML
-     * @param e Element XML contenant les données
-     * @param out Hashtable de sortie contenant les données, la clé doit être un Integer et la valeur doit être un T
+     * @param e {@link Element} XML contenant les données
+     * @param out Hashtable de sortie contenant les données, la clé doit être un {@link Integer} et la valeur doit être un {@link T}
      * @param s Instance de la classe en valeur de la hashtable, cela permet d'accéder aux fonctions non statiques
      *          Ce parmètre est rendu obligatoire car on ne peut pas forcer les classes à implémenter des fonctions statiques
      *          à l'aide d'une interface
      * @param params Paramètre obtionnel permettant de passer des données supplémentaires
-     * @param <T> Classe implémentant l'interface XMLSerializable
+     * @param <T> Classe implémentant l'interface {@link XMLSerializable}
      * @return vrai en cas de succès et faux en cas d'échec
      */
     public static <T extends XMLSerializable> boolean getFromElement(Element e, Hashtable<Integer, T> out, XMLSerializable s,  Object params) {
