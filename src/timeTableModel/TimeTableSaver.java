@@ -53,13 +53,14 @@ public class TimeTableSaver {
      * @param ssOld Instance de {@link SavedState} correspondant au commit lu dans le fichier
      *              et permettant de savoir si le fichier a été modifié depuis la dernière fois où il
      *              a été lu
-     * @return Vrai si la sauvegarde a réussi ou faux sinon
+     * @return La nouvelle instance de {@link SavedState} représentant le nouveau commit si celui-ci a réussi ou null sinon
      */
-    public boolean save(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables, SavedState ssOld) {
+    public SavedState save(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables, SavedState ssOld) {
         // Ajout du commit dans le fichier XML
         DateFormat df = new SimpleDateFormat(DATE_FORMAT);
         String date = df.format(new Date());
         String hash = XMLUtils.md5(System.currentTimeMillis() + date);
+        SavedState ssNew = new SavedState(file, hash);
         Element e = new Element(LAST_COMMIT),
                 ch = new Element(COMMIT_HASH),
                 cd = new Element(COMMIT_DATE);
@@ -96,18 +97,20 @@ public class TimeTableSaver {
             if(c == 'O') {
                 // L'utilisateur veut écraser le fichier
                 System.out.println("Le fichier a été écrasé.");
-                return out.saveToFile(dom);
+                boolean bb = out.saveToFile(dom);
+                return bb ? ssNew : null;
             }
             else {
                 // L'utilisateur ne veut pas écraser le fichier
                 System.out.println("Le fichier n'a pas été enregistré.");
-                return false;
+                return null;
             }
         }
         else {
             // Ici il n'y a pas de conflit
             // Et donc on peut directement écrire dans le fichier
-            return out.saveToFile(dom);
+            boolean bb = out.saveToFile(dom);
+            return bb ? ssNew : null;
         }
     }
 

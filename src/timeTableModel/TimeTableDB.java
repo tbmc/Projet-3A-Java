@@ -70,7 +70,13 @@ public class TimeTableDB {
      */
     public boolean saveDB(String file) {
         timeTableSaver.setFile(file);
-        return timeTableSaver.save(rooms, timeTables, hashLastCommit);
+        TimeTableSaver.SavedState ss = timeTableSaver.save(rooms, timeTables, hashLastCommit);
+        if(ss != null)
+        {
+            hashLastCommit = ss;
+            return true;
+        }
+        return false;
     }
 
     /**

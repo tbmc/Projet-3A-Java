@@ -72,5 +72,6 @@ public class Main {
         }
         boolean b = u.saveDB();
         System.out.println(b);
+        b = u.saveDB();
 	}
 }
