@@ -70,6 +70,9 @@ public class XMLToFileSaver {
         Document dom = null;
         try {
             SAXBuilder sxb = new SAXBuilder();
+            File f = new File(file);
+            if(!f.exists())
+                return null;
             dom = sxb.build(new File(file));
         } catch(Exception e) {
             e.printStackTrace();
