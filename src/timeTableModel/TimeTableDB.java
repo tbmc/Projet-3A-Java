@@ -1,5 +1,6 @@
 package timeTableModel;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -39,6 +40,7 @@ public class TimeTableDB {
     public TimeTableDB(String file){
         super();
         this.setFile(file);
+        loadDB();
     }
 
     /**
@@ -94,9 +96,17 @@ public class TimeTableDB {
      * 		Un boolean indiquant si le chargement a bien été réalisée.
      */
     public boolean loadDB() {
-        TimeTableSaver.SavedState ss = timeTableSaver.load(rooms, timeTables);
-        this.hashLastCommit = ss;
-        return ss != null;
+        Hashtable<Integer, Room> r = new Hashtable<>();
+        Hashtable<Integer, TimeTable> tt = new Hashtable<>();
+        TimeTableSaver.SavedState ss = timeTableSaver.load(r, tt);
+        System.out.println(ss);
+        if(ss != null) {
+            this.hashLastCommit = ss;
+            rooms = r;
+            timeTables = tt;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -113,7 +123,7 @@ public class TimeTableDB {
         if(rooms.containsKey(roomId))
             return false;
         rooms.put(roomId, new Room(roomId, maxStudentsNumber));
-        return true;
+        return saveDB();
     }
 
     /**
@@ -124,7 +134,8 @@ public class TimeTableDB {
      * 		Un boolean si la salle a bien été supprimée
      */
     public boolean removeRoom(int roomId) {
-        return rooms.remove(roomId) != null;
+        boolean b = rooms.remove(roomId) != null;
+        return b ? saveDB() : false;
     }
 
     /**
@@ -161,7 +172,10 @@ public class TimeTableDB {
     public String[] roomsToString() {
         Enumeration<Integer> keys = rooms.keys();
         String[] out = new String[rooms.size()];
-        for(Integer i = 0, k = 0; keys.hasMoreElements(); i++, k = keys.nextElement()) {
+        for(Integer i = 0, k = 0; keys.hasMoreElements(); i++) {
+            k = keys.nextElement();
+            System.out.println(k);
+            System.out.println(rooms.get(k));
             out[i] = rooms.get(k).getInfo();
         }
         return out;
@@ -178,7 +192,7 @@ public class TimeTableDB {
         if(timeTables.containsKey(timeTableId))
             return false;
         timeTables.put(timeTableId, new TimeTable(timeTableId));
-        return true;
+        return saveDB();
     }
 
     /**
@@ -189,7 +203,8 @@ public class TimeTableDB {
      * 		Un boolean indiquant si l'emploi du temps a bien été créé
      */
     public boolean removeTimeTable(int timeTableId) {
-        return timeTables.remove(timeTableId) != null;
+        boolean b = timeTables.remove(timeTableId) != null;
+        return b ? saveDB() : false;
     }
 
     /**
@@ -228,7 +243,8 @@ public class TimeTableDB {
             return false;
         if(!isRoomFree(roomId, dateBegin, dateEnd))
             return false;
-        return tt.addBooking(bookingId, login, dateBegin, dateEnd, room);
+        boolean b = tt.addBooking(bookingId, login, dateBegin, dateEnd, room);
+        return b ? saveDB() : false;
     }
 
     /**
@@ -264,7 +280,8 @@ public class TimeTableDB {
      * 		Un boolean indiquant si la réservation a bien été supprimée
      */
     public boolean removeBook(int timeTableId, int bookId) {
-        return timeTables.remove(timeTableId) != null;
+        boolean b = timeTables.remove(timeTableId) != null;
+        return b ? saveDB() : false;
     }
 
     /**
@@ -341,7 +358,8 @@ public class TimeTableDB {
         int size = in.size();
         String[] str = new String[size];
         Enumeration<Integer> keys = in.keys();
-        for(Integer i = 0, k = 0; keys.hasMoreElements(); i++, k = keys.nextElement()) {
+        for(Integer i = 0, k = 0; keys.hasMoreElements(); i++) {
+            k = keys.nextElement();
             str[i] = k.toString();
         }
         return str;

@@ -14,7 +14,7 @@ public class TimeTableSaver {
 
     public final String
             ROOMS_NAME           = "Rooms",
-            TIMETABLES_NAME      = "TimesTables",
+            TIMETABLES_NAME      = "TimeTables",
 
             LAST_COMMIT          = "LastCommit",
             COMMIT_HASH          = "Hash",
@@ -37,7 +37,6 @@ public class TimeTableSaver {
      * @return Une classe permettant de représenter le dernier commit du fichier
      */
     public SavedState load(Hashtable<Integer, Room> rooms, Hashtable<Integer, TimeTable> timeTables) {
-        System.out.println(file);
         XMLToFileSaver in = new XMLToFileSaver(file);
         Element e = in.loadFromFile();
         SavedState ss = getLastCommit(e);
@@ -126,8 +125,13 @@ public class TimeTableSaver {
         }
         if(e == null) return null;
         Element commit = e.getChild(LAST_COMMIT);
-        SavedState ss = new SavedState(file, commit.getChildText(COMMIT_HASH));
-        return ss;
+        if(commit != null) {
+            SavedState ss = new SavedState(file, commit.getChildText(COMMIT_HASH));
+            return ss;
+        }
+        else {
+            return new SavedState(file, "Il n'y avait pas de hash présent");
+        }
     }
 
     /**

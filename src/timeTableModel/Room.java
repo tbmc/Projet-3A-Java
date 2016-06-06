@@ -53,7 +53,7 @@ public class Room implements XMLUtils.XMLSerializable {
      * @return Chaine de caractères contenant toutes les informations de la classe
      */
     public String getInfo() {
-        return id + ";" + maxStudentNumber;
+        return "Room : " + id + " | Capacité : " + maxStudentNumber;
     }
 
     @Override
